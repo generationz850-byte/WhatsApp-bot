@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const logger = require('./utils/logger');
 const CommandHandler = require('./handlers/commandHandler');
+const qrcode = require('qrcode-terminal');
 
 const authDir = path.join(__dirname, '../auth_info');
 
@@ -30,6 +31,14 @@ async function startBot() {
             const { connection, lastDisconnect, qr } = update;
             
             if (qr) {
+                console.log('\n\n');
+                console.log('=====================================');
+                console.log('📱 QR Code Generated!');
+                console.log('Scan with WhatsApp on your phone:');
+                console.log('Settings > Linked Devices > Link a Device');
+                console.log('=====================================\n');
+                qrcode.generate(qr, { small: true });
+                console.log('\n=====================================\n');
                 logger.info('📱 QR Code generated. Scan it with WhatsApp to authenticate.');
             }
             
@@ -44,6 +53,12 @@ async function startBot() {
                 }
             } else if (connection === 'open') {
                 logger.info('✅ Bot connected successfully!');
+                console.log('\n\n');
+                console.log('╔═══════════════════════════════════╗');
+                console.log('║   ✅ BOT IS NOW RUNNING ✅        ║');
+                console.log('║   Ready to receive messages!      ║');
+                console.log('╚═══════════════════════════════════╝');
+                console.log('\n');
             } else if (connection === 'connecting') {
                 logger.info('⏳ Connecting to WhatsApp...');
             }
